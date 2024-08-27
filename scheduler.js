@@ -6,7 +6,7 @@ const { bot } = require('./bot');
 const notion = require('./notion');
 
 // run every minute
-cron.schedule('* * * * * *', async () => {
+cron.schedule('* * * * *', async () => {
     const now = moment().format('YYYY-MM-DD');
     try {
         const date = moment().add(1, 'days').format('YYYY-MM-DD');
