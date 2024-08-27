@@ -18,10 +18,10 @@ cron.schedule('* * * * *', () => {
                 const chats = await authorizedChat.get();
                 chats.forEach(async (chat) => {
                     const history = await reminderHistory.findByChatIdTaskIdAndSendDate(chat.chat_id, task.id, now.format('YYYY-MM-DD HH:mm:ss'));
-                    if (history) return;
-
-                    await reminderHistory.create(chat.chat_id, task.id, now.format('YYYY-MM-DD HH:mm:ss'));
-                    bot.telegram.sendMessage(chat.chat_id, `You have a task due ${formattedDate}: ${task.properties.Name.title[0].plain_text} (${task.url})`);
+                    if (!history) {
+                        await reminderHistory.create(chat.chat_id, task.id, now.format('YYYY-MM-DD HH:mm:ss'));
+                        bot.telegram.sendMessage(chat.chat_id, `You have a task due ${formattedDate}: ${task.properties.Name.title[0].plain_text} (${task.url})`);
+                    }
                 });
             });
         } catch (err) {
