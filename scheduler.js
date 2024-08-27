@@ -17,7 +17,7 @@ cron.schedule('* * * * *', () => {
             results.forEach(async (task) => {
                 const chats = await authorizedChat.get();
                 chats.forEach(async (chat) => {
-                    const history = await reminderHistory.findByChatIdTaskIdAndSendDate(chat.chat_id, task.id, formattedDate);
+                    const history = await reminderHistory.findByChatIdTaskIdAndSendDate(chat.chat_id, task.id, now.format('YYYY-MM-DD HH:mm:ss'));
                     if (history) return;
 
                     await reminderHistory.create(chat.chat_id, task.id, now.format('YYYY-MM-DD HH:mm:ss'));
