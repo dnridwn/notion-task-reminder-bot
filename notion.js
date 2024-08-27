@@ -2,7 +2,7 @@ const { Client } = require("@notionhq/client");
 
 const notion = new Client({ auth: process.env.NOTION_TOKEN });
 
-exports.getUnfinishedTaskByDueDate = function(date) {
+exports.getUnfinishedTaskOnOrBeforeDueDate = function(date) {
     return notion.databases.query({
         database_id: process.env.NOTION_DATABASE_ID,
         filter: {
@@ -26,7 +26,7 @@ exports.getUnfinishedTaskByDueDate = function(date) {
                 {
                     property: 'Due Date',
                     date: {
-                        equals: date
+                        on_or_before: date
                     }
                 },
             ]
