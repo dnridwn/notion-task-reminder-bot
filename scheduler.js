@@ -7,11 +7,11 @@ const notion = require('./notion');
 
 // run every minute
 cron.schedule('* * * * *', async () => {
-    const now = moment().format('YYYY-MM-DD');
     try {
-        const date = moment().add(1, 'days').format('YYYY-MM-DD');
+        const now = moment().format('YYYY-MM-DD');
+        const tomorrow = moment().add(1, 'days').format('YYYY-MM-DD');
 
-        const { results } = await notion.getUnfinishedTaskOnOrBeforeDueDate(date);
+        const { results } = await notion.getUnfinishedTaskOnOrBeforeDueDate(tomorrow);
         results.forEach(async (task) => {
             const chats = await authorizedChat.get();
             chats.forEach(async (chat) => {
