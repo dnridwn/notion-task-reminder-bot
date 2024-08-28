@@ -27,7 +27,6 @@ conn.query(
     `CREATE TABLE IF NOT EXISTS \`reminder_histories\` (
         \`id\` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
         \`chat_id\` VARCHAR(100) NOT NULL,
-        \`task_id\` VARCHAR(100) NOT NULL,
         \`send_date\` DATE NOT NULL
     ) ENGINE=InnoDB;`,
     (err) => {
