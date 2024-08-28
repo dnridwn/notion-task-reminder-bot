@@ -5,8 +5,8 @@ const authorizedChat = require('./models/authorized-chat');
 const { bot } = require('./bot');
 const notion = require('./notion');
 
-// run every minute
-cron.schedule('* * * * *', async () => {
+// run every day at 07:30 am
+cron.schedule('30 7 * * *', async () => {
     try {
         const now = moment().format('YYYY-MM-DD');
 
