@@ -1,37 +1,21 @@
 const mysql = require('mysql2');
 
-const conn = mysql.createConnection({
+const config = {
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     user: process.env.DB_USER,
     password: process.env.DB_PASS,
     database: process.env.DB_NAME
-});
+};
 
-conn.connect((err) => {
-    if (err) throw err;
-    console.log('Database connected');
-});
+function createConnection() {
+    const connection = mysql.createConnection(config);
+    connection.connect();
+    return connection;
+}
 
-conn.query(
-    `CREATE TABLE IF NOT EXISTS \`authorized_chats\` (
-        \`id\` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-        \`chat_id\` VARCHAR(100) NOT NULL
-    ) ENGINE=InnoDB;`,
-    (err) => {
-        if (err) throw err;
-    }
-);
-
-conn.query(
-    `CREATE TABLE IF NOT EXISTS \`reminder_histories\` (
-        \`id\` INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
-        \`chat_id\` VARCHAR(100) NOT NULL,
-        \`send_date\` DATE NOT NULL
-    ) ENGINE=InnoDB;`,
-    (err) => {
-        if (err) throw err;
-    }
-);
-
-exports.conn = conn;
+exports.prepareConnection = async function(callback) {
+    const connection = createConnection();
+    await callback(connection);
+    connection.end();
+}
