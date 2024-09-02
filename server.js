@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('./migration');
 require('./bot');
 require('./scheduler');
 
